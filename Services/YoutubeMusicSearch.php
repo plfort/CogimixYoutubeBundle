@@ -74,6 +74,10 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
         return 'Youtube';
     }
 
+    public function  getAlias(){
+        return 'ytservice';
+    }
+
     public function getResultTag(){
         return 'yt';
     }
