@@ -1,0 +1,7 @@
+{
+    "name": "cogipix/cogimixyoutube",
+    "require": {
+       "php": ">=5.3.3",
+        "zend/gdata":"dev-master"
+    }
+}
