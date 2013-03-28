@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    
+    <services>
+        
+                   
+           <service id="youtube_music.search_service"  parent="abstract_music_seach"  class="Cogipix\CogimixYoutubeBundle\Services\YoutubeMusicSearch">
+                <tag name="cogimix.service" alias="ytservice" />
+           </service>
+    </services>
+  
+</container>
