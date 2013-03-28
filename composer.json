@@ -1,7 +1,12 @@
 {
     "name": "cogipix/cogimixyoutube",
+    "type": "symfony-bundle",
     "require": {
        "php": ">=5.3.3",
         "zend/gdata":"dev-master"
-    }
+    },
+    "autoload": {
+        "psr-0": {"Cogipix\\CogimixYoutubeBundle": ""}
+    },
+    "target-dir": "Cogipix/CogimixYoutubeBundle"
 }
