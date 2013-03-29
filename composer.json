@@ -15,5 +15,5 @@
         "psr-0": {"Cogipix\\CogimixYoutubeBundle": ""}
     },
     "target-dir": "Cogipix/CogimixYoutubeBundle",
-    "include-path": ["../../vendor/zend/gdata/library"]
+    "include-path": ["../../../vendor/zend/gdata/library"]
 }
