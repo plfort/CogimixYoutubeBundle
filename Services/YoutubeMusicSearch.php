@@ -1,6 +1,8 @@
 <?php
 namespace Cogipix\CogimixYoutubeBundle\Services;
 
+use Cogipix\CogimixBundle\Model\SongResult;
+
 use Cogipix\CogimixBundle\Entity\TrackResult;
 use Cogipix\CogimixBundle\Services\AbstractMusicSearch;
 
@@ -20,7 +22,7 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
 
         $result = array();
         foreach($feeds as $feed){
-            $item = new TrackResult();
+            $item = new SongResult();
 
             $item->setEntryId($feed->getVideoId());
             if(strstr($feed->getVideoTitle(),'-' )!==false){
@@ -42,6 +44,7 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
             }
             $item->setThumbnails($thumbnails);
             $item->setTag($this->getResultTag());
+            $item->setIcon($this->getDefaultIcon());
             $result[]=$item;
         }
         $this->logger->info('Youtube return '.count($result).' results');
@@ -76,6 +79,10 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
 
     public function  getAlias(){
         return 'ytservice';
+    }
+
+    public function getDefaultIcon(){
+        return 'bundles/cogimixyoutube/images/yt-icon.png';
     }
 
     public function getResultTag(){
