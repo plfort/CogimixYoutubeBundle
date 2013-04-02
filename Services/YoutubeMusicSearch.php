@@ -1,8 +1,6 @@
 <?php
 namespace Cogipix\CogimixYoutubeBundle\Services;
 
-use Cogipix\CogimixBundle\Model\SongResult;
-
 use Cogipix\CogimixBundle\Entity\TrackResult;
 use Cogipix\CogimixBundle\Services\AbstractMusicSearch;
 
@@ -22,7 +20,7 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
 
         $result = array();
         foreach($feeds as $feed){
-            $item = new SongResult();
+            $item = new TrackResult();
 
             $item->setEntryId($feed->getVideoId());
             if(strstr($feed->getVideoTitle(),'-' )!==false){
