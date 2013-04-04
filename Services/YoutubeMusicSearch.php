@@ -1,8 +1,8 @@
 <?php
 namespace Cogipix\CogimixYoutubeBundle\Services;
 
-use Cogipix\CogimixBundle\Entity\TrackResult;
-use Cogipix\CogimixBundle\Services\AbstractMusicSearch;
+use Cogipix\CogimixCommonBundle\Entity\TrackResult;
+use Cogipix\CogimixCommonBundle\MusicSearch\AbstractMusicSearch;
 
 class YoutubeMusicSearch extends AbstractMusicSearch{
 
