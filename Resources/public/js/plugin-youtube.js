@@ -24,13 +24,13 @@ function youtubePlayer(musicPlayer) {
 
 	this.hideWidget=function(){
 		if(self.widgetElement!=null){
-			console.log('hide youtube player in youtubeplugin');
+			loggerYoutube.debug('hide youtube player in youtubeplugin');
 			self.widgetElement.addClass('fakeHide');
 		}
 	}
 	this.showWidget = function(){
 		if(self.widgetElement!=null){
-			console.log('show youtube player in youtubeplugin');
+			loggerYoutube.debug('show youtube player in youtubeplugin');
 			self.widgetElement.removeClass('fakeHide');
 		}
 	}
@@ -45,7 +45,7 @@ function youtubePlayer(musicPlayer) {
 
 	};
 	this.stop = function(){
-		console.log('call stop in youtube plugin');
+		loggerYoutube.debug('call stop in youtube plugin');
 		self.ytplayer.stopVideo();
 		//window.clearInterval(self.interval);
 	}
@@ -63,10 +63,10 @@ function youtubePlayer(musicPlayer) {
 
 	this.onYoutubePlayerReady = function(playerId) {
 		
-		console.log('second catch player ready !');
+		loggerYoutube.debug('second catch player ready !');
 		if (self.ytplayer == null) {
 			self.ytplayer = document.getElementById("youtubeplayer");
-			console.log('add event listener');
+			loggerYoutube.debug('add event listener');
 			self.ytplayer.addEventListener("onStateChange",
 					"onYoutubePlayerStateChange");
 			
@@ -79,7 +79,7 @@ function youtubePlayer(musicPlayer) {
 
 	this.onYoutubePlayerStateChange = function(newState) {
 		var oldState = self.currentState;
-		console.log('Youtube state changed ' + newState);
+		loggerYoutube.debug('Youtube state changed ' + newState);
 		self.currentState = newState;
 		if(newState == -1 || newState == 5){
 			
@@ -90,7 +90,7 @@ function youtubePlayer(musicPlayer) {
 			return;
 		}
 		if(newState == 2){
-			console.log('Clear interval');
+			loggerYoutube.debug('Clear interval');
 			self.clearInterval();
 			return;
 		}
@@ -100,7 +100,7 @@ function youtubePlayer(musicPlayer) {
 			self.clearInterval();
 			self.musicPlayer.unbinCursorStop();
 			self.musicPlayer.cursor.progressbar( "value",0 );
-			console.log('Call next from youtube plugin');
+			loggerYoutube.debug('Call next from youtube plugin');
 			self.musicPlayer.next();
 			return;
 		}
@@ -117,7 +117,7 @@ function youtubePlayer(musicPlayer) {
 				self.ytplayer.seekTo(value, true);
 			});
 			
-			console.log('Create interval');
+			loggerYoutube.debug('Create interval');
 			this.createCursorInterval(1000);
 					
 			return;
@@ -125,14 +125,14 @@ function youtubePlayer(musicPlayer) {
 
 	};
 	this.clearInterval=function(){
-		console.log('clear interval: '+self.interval);
+		loggerYoutube.debug('clear interval: '+self.interval);
 		window.clearInterval(self.interval);
 	};
 	
 	this.createCursorInterval=function(delay){
 		self.clearInterval();
 		self.interval = window.setInterval(function() {
-			//console.log('update youtube cursor');
+			//loggerYoutube.debug('update youtube cursor');
 			var percentLoaded=self.ytplayer.getVideoLoadedFraction();
 			var duration = self.ytplayer.getDuration();
 			self.musicPlayer.cursor.progressbar('value',percentLoaded*100);
@@ -141,13 +141,13 @@ function youtubePlayer(musicPlayer) {
 						.getCurrentTime())
 			}
 		}, delay);
-		console.log('Interval : '+self.interval+' created');
+		loggerYoutube.debug('Interval : '+self.interval+' created');
 	};
 	
 }
 
 function onYouTubePlayerReady(playerId) {
-	console.log('first catch player ready !');
+	loggerYoutube.debug('first catch player ready !');
 	musicPlayer.plugin['yt'].onYoutubePlayerReady(playerId);
 }
 function onYoutubePlayerStateChange(newState) {
