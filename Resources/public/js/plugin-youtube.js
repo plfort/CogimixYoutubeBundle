@@ -14,8 +14,7 @@ function youtubePlayer(musicPlayer) {
 		id : "youtubeplayer"
 	};
 	var self = this;
-	
-	
+
 	
 	if (self.ytplayer == null) {
 			swfobject.embedSWF(location.protocol +"//www.youtube.com/apiplayer?enablejsapi=1&version=3", "youtubeplayer", "300",
@@ -46,19 +45,27 @@ function youtubePlayer(musicPlayer) {
 	};
 	this.stop = function(){
 		loggerYoutube.debug('call stop in youtube plugin');
-		self.ytplayer.stopVideo();
+		if(self.ytplayer!=null){
+			self.ytplayer.stopVideo();
+		}
 		//window.clearInterval(self.interval);
 	}
 	
 	this.pause = function(){
-		self.ytplayer.pauseVideo();
+		if(self.ytplayer!=null){
+			self.ytplayer.pauseVideo();
+		}
 	}
 	this.resume = function(){
-		self.ytplayer.playVideo();
+		if(self.ytplayer!=null){
+			self.ytplayer.playVideo();
+		}
 	}
 	
 	this.playHelper = function() {
-		self.ytplayer.playVideo();
+		if(self.ytplayer!=null){
+			self.ytplayer.playVideo();
+		}
 	};
 
 	this.onYoutubePlayerReady = function(playerId) {
