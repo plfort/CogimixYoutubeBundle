@@ -12,6 +12,11 @@
                 <tag name="cogimix.plugin" />
            </service>
            
+           
+           <service id="youtube_music.widget_renderer" class="Cogipix\CogimixYoutubeBundle\ViewHooks\Widget\WidgetRenderer">
+                <tag name="cogimix.widget_renderer"/>
+           </service>
+           
            <service id="youtube_music.jsimport_renderer" class="Cogipix\CogimixYoutubeBundle\ViewHooks\Javascript\JavascriptImportRenderer">
                 <tag name="cogimix.jsimport_renderer"/>
            </service>

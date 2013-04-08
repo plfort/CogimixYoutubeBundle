@@ -93,7 +93,7 @@ function youtubePlayer(musicPlayer) {
 			self.clearInterval();
 			self.musicPlayer.unbinCursorStop();
 			self.musicPlayer.cursor.progressbar( "value",0 );
-			self.hideWidget();
+			//self.hideWidget();
 			return;
 		}
 		if(newState == 2){
@@ -112,7 +112,7 @@ function youtubePlayer(musicPlayer) {
 			return;
 		}
 		if (newState == 1) {
-			self.showWidget();
+			//self.showWidget();
 			self.musicPlayer.enableControls();
 			self.musicPlayer.cursor.slider("value", 0);
 			
