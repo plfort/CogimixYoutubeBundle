@@ -39,7 +39,7 @@ function youtubePlayer(musicPlayer) {
 		var videoId = item.entryId;
 		
 		if (self.ytplayer == null) {
-			swfobject.embedSWF("http://www.youtube.com/v/" + videoId
+			swfobject.embedSWF("https://www.youtube.com/v/" + videoId
 					+ "/?enablejsapi=1&version=3", "youtubeplayer", "350",
 					"250", "9", null, null, params, atts);
 		} else {
