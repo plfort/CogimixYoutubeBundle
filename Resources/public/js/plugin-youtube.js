@@ -8,18 +8,20 @@ function youtubePlayer(musicPlayer) {
 	this.widgetElement = $("#youtubeplayerContainer");
 	var params = {
 		allowScriptAccess : "always",
-	    wmode: "transparent"
+	    wmode: "transparent",
+	    controls:2,
+	    allowFullscreen:true,
+	    rel:false,
+	    fs:1
 	};
 	var atts = {
-		id : "youtubeplayer"
+		id : "youtubeplayer",
+			allowfullscreen:1,
+			
 	};
 	var self = this;
 
 	
-	if (self.ytplayer == null) {
-			swfobject.embedSWF(location.protocol +"//www.youtube.com/apiplayer?enablejsapi=1&version=3", "youtubeplayer", "300",
-					"300", "8", null, null, params, atts);
-	}	
 
 	this.hideWidget=function(){
 		if(self.widgetElement!=null){
@@ -34,13 +36,20 @@ function youtubePlayer(musicPlayer) {
 		}
 	}
 	this.play = function(item) {
-		
 		var videoId = item.entryId;
-
+		
+		if (self.ytplayer == null) {
+			swfobject.embedSWF("http://www.youtube.com/v/" + videoId
+					+ "/?enablejsapi=1&version=3", "youtubeplayer", "350",
+					"250", "9", null, null, params, atts);
+		} else {
 			if(self.currentState == 1){
 				self.stop();
 			}
 			self.ytplayer.loadVideoById(videoId);
+
+		}
+		
 
 	};
 	this.stop = function(){
@@ -62,8 +71,16 @@ function youtubePlayer(musicPlayer) {
 		}
 	}
 	
+	this.setVolume = function(value){
+		loggerYoutube.debug('call setVolume youtube');
+		if(self.ytplayer!=null){
+			self.ytplayer.setVolume(value);
+		}
+	}
+	
 	this.playHelper = function() {
 		if(self.ytplayer!=null){
+			self.setVolume(self.musicPlayer.volume);
 			self.ytplayer.playVideo();
 		}
 	};
@@ -79,6 +96,7 @@ function youtubePlayer(musicPlayer) {
 			
 			setTimeout(self.playHelper, 1000);
 		} else {
+			
 			setTimeout(self.playHelper, 1000);
 		}
 
@@ -143,6 +161,9 @@ function youtubePlayer(musicPlayer) {
 			var percentLoaded=self.ytplayer.getVideoLoadedFraction();
 			var duration = self.ytplayer.getDuration();
 			self.musicPlayer.cursor.progressbar('value',percentLoaded*100);
+			if(self.musicPlayer.controls.volumeSlider.data('isdragging')==false){
+		    self.musicPlayer.controls.volumeSlider.slider("value", self.ytplayer.getVolume())
+			}
 			if(self.musicPlayer.cursor.data('isdragging')==false){
 				self.musicPlayer.cursor.slider("value", self.ytplayer
 						.getCurrentTime())
