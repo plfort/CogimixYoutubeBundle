@@ -1,6 +1,7 @@
 function youtubePlayer(musicPlayer) {
 	
 	this.name = "Youtube";
+	this.cancelRequested = false;
 	this.interval;
 	this.musicPlayer = musicPlayer;
 	this.currentState = null;
@@ -21,6 +22,9 @@ function youtubePlayer(musicPlayer) {
 	};
 	var self = this;
 
+	this.requestCancel=function(){
+		self.cancelRequested=true;
+	}
 	
 
 	this.hideWidget=function(){
@@ -54,6 +58,7 @@ function youtubePlayer(musicPlayer) {
 	};
 	this.stop = function(){
 		loggerYoutube.debug('call stop in youtube plugin');
+		
 		if(self.ytplayer!=null){
 			self.ytplayer.stopVideo();
 		}
@@ -106,6 +111,7 @@ function youtubePlayer(musicPlayer) {
 		var oldState = self.currentState;
 		loggerYoutube.debug('Youtube state changed ' + newState);
 		self.currentState = newState;
+		
 		if(newState == -1 || newState == 5){
 			
 			self.clearInterval();
@@ -130,24 +136,28 @@ function youtubePlayer(musicPlayer) {
 			return;
 		}
 		if (newState == 1) {
-			//self.showWidget();
-			self.musicPlayer.enableControls();
-			self.musicPlayer.cursor.slider("value", 0);
-			
-			var duration = self.ytplayer.getDuration();
-			var loaded = self.ytplayer.getVideoLoadedFraction();
-			self.musicPlayer.cursor.slider("option", "max", duration).progressbar({value:loaded*100,});	
-			
-			self.musicPlayer.bindCursorStop(function(value) {
-				self.ytplayer.seekTo(value, true);
-			});
-			
-			loggerYoutube.debug('Create interval');
-			this.createCursorInterval(1000);
-					
+			if(self.cancelRequested==false){
+				//self.showWidget();
+				self.musicPlayer.enableControls();
+				self.musicPlayer.cursor.slider("value", 0);
+				
+				var duration = self.ytplayer.getDuration();
+				var loaded = self.ytplayer.getVideoLoadedFraction();
+				self.musicPlayer.cursor.slider("option", "max", duration).progressbar({value:loaded*100,});	
+				
+				self.musicPlayer.bindCursorStop(function(value) {
+					self.ytplayer.seekTo(value, true);
+				});
+				
+				loggerYoutube.debug('Create interval');
+				this.createCursorInterval(1000);
+			}else{
+				self.cancelRequested=false;
+				self.stop();
+			}		
 			return;
 		}
-
+	
 	};
 	this.clearInterval=function(){
 		loggerYoutube.debug('clear interval: '+self.interval);
