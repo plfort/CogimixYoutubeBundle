@@ -184,6 +184,10 @@ function youtubePlayer(musicPlayer) {
 	
 }
 
+$("body").on('musicplayerReady',function(event){
+	event.musicPlayer.addPlugin('yt',new youtubePlayer(event.musicPlayer));
+});
+
 function onYouTubePlayerReady(playerId) {
 	loggerYoutube.debug('first catch player ready !');
 	musicPlayer.plugin['yt'].onYoutubePlayerReady(playerId);
