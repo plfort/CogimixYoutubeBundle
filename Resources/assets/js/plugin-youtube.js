@@ -21,6 +21,11 @@ function youtubePlayer(musicPlayer) {
 			
 	};
 	var self = this;
+	
+	var tag = document.createElement('script');
+	tag.src = "https://www.youtube.com/iframe_api";
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 	this.requestCancel=function(){
 		self.cancelRequested=true;
@@ -42,17 +47,17 @@ function youtubePlayer(musicPlayer) {
 	this.play = function(item) {
 		var videoId = item.entryId;
 		
-		if (self.ytplayer == null) {
+	/*	if (self.ytplayer == null) {
 			swfobject.embedSWF("https://www.youtube.com/v/" + videoId
 					+ "/?enablejsapi=1&version=3", "youtubeplayer", "350",
 					"250", "9", null, null, params, atts);
-		} else {
+		} else {*/
 			if(self.currentState == 1){
 				self.stop();
 			}
 			self.ytplayer.loadVideoById(videoId);
 
-		}
+		//}
 		
 
 	};
@@ -89,7 +94,15 @@ function youtubePlayer(musicPlayer) {
 			self.ytplayer.playVideo();
 		}
 	};
-
+	this.onYouTubeIframeAPIReady = function(){
+		self.ytplayer = new YT.Player('youtubeplayer', {
+	          events: {
+	            'onReady': onPlayerReady,
+	            'onStateChange': self.onYoutubePlayerStateChange
+	          }
+		});
+	}
+		
 	this.onYoutubePlayerReady = function(playerId) {
 		
 		loggerYoutube.debug('second catch player ready !');
@@ -107,7 +120,8 @@ function youtubePlayer(musicPlayer) {
 
 	};
 
-	this.onYoutubePlayerStateChange = function(newState) {
+	this.onYoutubePlayerStateChange = function(event) {
+		var newState = event.data;
 		var oldState = self.currentState;
 		loggerYoutube.debug('Youtube state changed ' + newState);
 		self.currentState = newState;
@@ -150,7 +164,7 @@ function youtubePlayer(musicPlayer) {
 				});
 				
 				loggerYoutube.debug('Create interval');
-				this.createCursorInterval(1000);
+				self.createCursorInterval(1000);
 			}else{
 				self.cancelRequested=false;
 				self.stop();
@@ -196,3 +210,12 @@ function onYoutubePlayerStateChange(newState) {
 
 	musicPlayer.plugin['yt'].onYoutubePlayerStateChange(newState);
 }
+
+function onYouTubeIframeAPIReady(){
+	musicPlayer.plugin['yt'].onYouTubeIframeAPIReady();
+}
+
+function onPlayerReady(){
+	console.log('YOUTUBE PLAYER READY');
+}
+	
