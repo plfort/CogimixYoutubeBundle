@@ -11,6 +11,13 @@
            <service id="youtube_music.search_service"  parent="abstract_music_search"  class="Cogipix\CogimixYoutubeBundle\Services\YoutubeMusicSearch">
                 <tag name="cogimix.plugin" />
            </service>
+            <service id="youtube_music.result_builder" class="Cogipix\CogimixYoutubeBundle\Services\ResultBuilder">
+                </service>
+                
+           <service id="youtube_music.url_search" class="Cogipix\CogimixYoutubeBundle\Services\YoutubeUrlSearch">
+               <argument type="service" id="youtube_music.result_builder"/>
+                <tag name="cogimix.url_search" />
+           </service>
            
            
            <service id="youtube_music.widget_renderer" class="Cogipix\CogimixYoutubeBundle\ViewHooks\Widget\WidgetRenderer">

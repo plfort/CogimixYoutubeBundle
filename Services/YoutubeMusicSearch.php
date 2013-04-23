@@ -21,7 +21,6 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
         $result = array();
         foreach($feeds as $feed){
             $item = new TrackResult();
-
             $item->setEntryId($feed->getVideoId());
             if(strstr($feed->getVideoTitle(),'-' )!==false){
                 $artistTitle = explode('-', $feed->getVideoTitle());
