@@ -9,6 +9,7 @@
         
                    
            <service id="youtube_music.search_service"  parent="abstract_music_search"  class="Cogipix\CogimixYoutubeBundle\Services\YoutubeMusicSearch">
+                 <argument type="service" id="youtube_music.result_builder"/>
                 <tag name="cogimix.plugin" />
            </service>
             <service id="youtube_music.result_builder" class="Cogipix\CogimixYoutubeBundle\Services\ResultBuilder">

@@ -8,9 +8,10 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
 
     private $youtubeService;
     private $videoQuery;
+    private $resultBuilder;
 
-    public function __construct(){
-
+    public function __construct(ResultBuilder $resultBuilder){
+        $this->resultBuilder=$resultBuilder;
         $this->youtubeService=new \Zend_Gdata_YouTube();
         $this->youtubeService->getHttpClient()->setAdapter('Zend_Http_Client_Adapter_Curl');
 
@@ -20,29 +21,8 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
 
         $result = array();
         foreach($feeds as $feed){
-            $item = new TrackResult();
-            $item->setEntryId($feed->getVideoId());
-            if(strstr($feed->getVideoTitle(),'-' )!==false){
-                $artistTitle = explode('-', $feed->getVideoTitle());
-                $item->setArtist(trim($artistTitle[0]));
-                $item->setTitle(trim($artistTitle[1]));
-            }else{
-                $item->setTitle($feed->getVideoTitle());
-
-            }
-
-            //$item->setFlashUrl($feed->getFlashPlayerUrl());
-            $videoThumbnails = $feed->getVideoThumbnails();
-            $thumbnails=array();
-            if(!empty($videoThumbnails) && array_key_exists(0, $videoThumbnails)){
-                $thumbnails=$videoThumbnails[0]['url'];
-            }else{
-                $thumbnails=null;
-            }
-            $item->setThumbnails($thumbnails);
-            $item->setTag($this->getResultTag());
-            $item->setIcon($this->getDefaultIcon());
-            $result[]=$item;
+             $item= $this->resultBuilder->createFromVideoEntry($feed);
+             $result[]=$item;
         }
         $this->logger->info('Youtube return '.count($result).' results');
         return $result;
@@ -85,6 +65,8 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
     public function getResultTag(){
         return 'yt';
     }
+
+
 }
 
 ?>
