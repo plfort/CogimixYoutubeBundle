@@ -30,8 +30,27 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
 
     protected function executeQuery(){
         $this->logger->info('Youtube executeQuery');
+        $feeds = array();
         try{
-        $feeds = $this->youtubeService->getVideoFeed($this->videoQuery);
+            $feeds = $this->youtubeService->getVideoFeed($this->videoQuery);
+
+        }catch(\Exception $ex){
+            $this->logger->err($ex);
+            return array();
+        }
+
+        return $this->parseResponse($feeds);
+
+    }
+
+    protected function executePopularQuery(){
+
+        $videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
+        $videoQuery->setCategory('music');
+        $videoQuery->setFeedType('most viewed');
+        $this->logger->info('Youtube executePopularQuery');
+        try{
+             $feeds= $this->youtubeService->getVideoFeed($videoQuery);
 
         }catch(\Exception $ex){
             $this->logger->err($ex);
