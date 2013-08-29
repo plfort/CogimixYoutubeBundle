@@ -17,19 +17,20 @@ class YoutubeUrlSearch implements UrlSearcherInterface
     }
 
 
-    public function canParse($host)
+    public function canParse($url)
     {
-
-        preg_match($this->regexHost, $host,$matches);
-
-       return isset($matches[0]) ? $matches[0] : false;
+      if(is_array($url->path) && !in_array('playlist', $url->path) ){
+          preg_match($this->regexHost, $url->host,$matches);
+          return isset($matches[0]) ? $matches[0] : false;
+      }
+       return false;
 
     }
 
     public function searchByUrl(ParsedUrl $url)
     {
 
-        if( ($match = $this->canParse($url->host)) !== false){
+        if( ($match = $this->canParse($url)) !== false){
 
             $youtubeService = new \Zend_Gdata_YouTube();
             $youtubeService->getHttpClient()->setAdapter('Zend_Http_Client_Adapter_Curl');
