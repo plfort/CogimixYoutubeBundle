@@ -50,7 +50,7 @@ class ResultBuilder{
 
 
     public function getDefaultIcon(){
-        return 'bundles/cogimixyoutube/images/yt-icon.png';
+        return '/bundles/cogimixyoutube/images/yt-icon.png';
     }
 
     public function getResultTag(){

@@ -197,7 +197,7 @@ function youtubePlayer(musicPlayer) {
 	};
 	
 }
-iconMap['yt'] = 'bundles/cogimixyoutube/images/yt-icon.png';
+iconMap['yt'] = '/bundles/cogimixyoutube/images/yt-icon.png';
 $("body").on('musicplayerReady',function(event){
 	event.musicPlayer.addPlugin('yt',new youtubePlayer(event.musicPlayer));
 });
