@@ -46,6 +46,7 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
     protected function executePopularQuery(){
 
         $videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
+       
         $videoQuery->setCategory('music');
         $videoQuery->setFeedType('most viewed');
         $this->logger->info('Youtube executePopularQuery');
@@ -64,6 +65,7 @@ class YoutubeMusicSearch extends AbstractMusicSearch{
     protected function buildQuery(){
 
         $this->videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
+      
         $this->videoQuery->setCategory('music');
         $this->videoQuery->setVideoQuery($this->searchQuery->getSongQuery());
 

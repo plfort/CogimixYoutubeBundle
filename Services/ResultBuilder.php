@@ -10,6 +10,7 @@ class ResultBuilder{
 
         $item = null;
         if($videoEntry !== null ){
+     
             $item = new TrackResult();
             $item->setEntryId($videoEntry->getVideoId());
             if(strstr($videoEntry->getVideoTitle(),'-' )!==false){
@@ -18,6 +19,7 @@ class ResultBuilder{
                 $item->setTitle(trim($artistTitle[1]));
             }else{
                 $item->setTitle($videoEntry->getVideoTitle());
+                
 
             }
             $videoThumbnails = $videoEntry->getVideoThumbnails();
@@ -30,6 +32,7 @@ class ResultBuilder{
             $item->setThumbnails($thumbnails);
             $item->setTag($this->getResultTag());
             $item->setIcon($this->getDefaultIcon());
+            $item->setDuration($videoEntry->getVideoDuration());
         }
 
         return $item;
