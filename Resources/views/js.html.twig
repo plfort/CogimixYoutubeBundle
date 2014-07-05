@@ -1,9 +1,10 @@
+<script>
+var loggerYoutube= JSLog.Register('CogimixYoutube');
+var ytQuality = {% if  app.request.cookies.has('ytquality')%}'{{ app.request.cookies.get('ytquality')}}'{%else%}'default'{% endif %};
+ ;
+</script>
 {% javascripts
         '@CogimixYoutubeBundle/Resources/assets/js/plugin-youtube.js' filter="?yui_js"%}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 
-<script>
-var loggerYoutube= JSLog.Register('CogimixYoutube');
-
-</script>

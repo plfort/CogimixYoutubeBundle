@@ -20,7 +20,9 @@
                 <tag name="cogimix.url_search" />
            </service>
            
-           
+           <service id="youtube_music.menu_renderer" class="Cogipix\CogimixYoutubeBundle\ViewHooks\Menu\MenuItem">
+                <tag name="cogimix.menu_item"/>
+           </service>
            <service id="youtube_music.widget_renderer" class="Cogipix\CogimixYoutubeBundle\ViewHooks\Widget\WidgetRenderer">
                 <tag name="cogimix.widget_renderer"/>
            </service>

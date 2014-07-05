@@ -1,4 +1,13 @@
-function youtubePlayer(musicPlayer) {
+var ytQualities = [
+                   'small',
+                   'medium',
+                   'large',
+                   'hd720',
+                   'hd1080',
+                   'highres'];
+
+
+function youtubePlayer(musicPlayer,ytQuality) {
 	
 	this.name = "Youtube";
 	this.cancelRequested = false;
@@ -6,6 +15,10 @@ function youtubePlayer(musicPlayer) {
 	this.musicPlayer = musicPlayer;
 	this.currentState = null;
 	this.ytplayer = null;
+	if(typeof ytQuality == 'undefined' || ytQualities.indexOf(ytQuality) == -1  ){
+		ytQuality = 'default';
+	}
+	this.quality = ytQuality;
 	this.widgetElement = $("#youtubeplayerContainer");
 	var params = {
 		allowScriptAccess : "always",
@@ -56,7 +69,7 @@ function youtubePlayer(musicPlayer) {
 				self.stop();
 			}
 			self.ytplayer.loadVideoById(videoId);
-
+			self.setQuality(self.quality);
 		//}
 		
 
@@ -94,6 +107,14 @@ function youtubePlayer(musicPlayer) {
 			self.ytplayer.playVideo();
 		}
 	};
+	
+	this.setQuality = function(quality){
+		this.quality = quality;
+		if(self.ytplayer != null){
+			self.ytplayer.setPlaybackQuality(this.quality);
+		}
+	};
+	
 	this.onYouTubeIframeAPIReady = function(){
 		self.ytplayer = new YT.Player('youtubeplayer', {
 	          events: {
@@ -111,6 +132,7 @@ function youtubePlayer(musicPlayer) {
 			loggerYoutube.debug('add event listener');
 			self.ytplayer.addEventListener("onStateChange",
 					"onYoutubePlayerStateChange");
+			
 			
 			setTimeout(self.playHelper, 1000);
 		} else {
@@ -199,8 +221,16 @@ function youtubePlayer(musicPlayer) {
 }
 iconMap['yt'] = '/bundles/cogimixyoutube/images/yt-icon.png';
 $("body").on('musicplayerReady',function(event){
-	event.musicPlayer.addPlugin('yt',new youtubePlayer(event.musicPlayer));
+	event.musicPlayer.addPlugin('yt',new youtubePlayer(event.musicPlayer,ytQuality));
+	$("#youtube-quality").on('click','a',function(e){
+		$.get(Routing.generate('_youtube_set_quality',{quality:$(this).data('quality')}));
+		event.musicPlayer.plugin['yt'].setQuality($(this).data('quality'));
+		$("#youtube-quality").find('li').removeClass('active');
+		$(this).closest('li').addClass('active');
+		return false;
+	});
 });
+
 
 function onYouTubePlayerReady(playerId) {
 	loggerYoutube.debug('first catch player ready !');

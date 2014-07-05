@@ -1,0 +1,13 @@
+{% spaceless %}
+<li id="youtube-menu">
+    <a href="#">{{ 'youtube.quality'|trans }}</a>
+    {% set ytquality = app.request.cookies.get('ytquality') %}
+    <ul id="youtube-quality">
+     <li {% if ytquality =='small' %}class="active"{% endif %}><a href="#" data-quality="small">{{ 'youtube.quality.small'|trans }}</a></li>
+     <li {% if ytquality =='medium' %}class="active"{% endif %}><a href="#" data-quality="medium">{{ 'youtube.quality.medium'|trans }}</a></li>
+     <li {% if ytquality =='large' %}class="active"{% endif %}><a href="#" data-quality="large">{{ 'youtube.quality.large'|trans }}</a></li>
+     <li {% if ytquality =='hd720' %}class="active"{% endif %}><a href="#" data-quality="hd720">{{ 'youtube.quality.hd720'|trans }}</a></li>
+     <li {% if ytquality =='hd1080' %}class="active"{% endif %}><a href="#" data-quality="hd1080">{{ 'youtube.quality.hd1080'|trans }}</a></li>
+    </ul>
+</li>
+{% endspaceless %}
