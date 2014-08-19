@@ -23,7 +23,7 @@ function youtubePlayer(musicPlayer,ytQuality) {
 	var params = {
 		allowScriptAccess : "always",
 	    wmode: "transparent",
-	    controls:2,
+	    controls:0,
 	    allowFullscreen:true,
 	    rel:false,
 	    fs:1
