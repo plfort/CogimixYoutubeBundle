@@ -218,6 +218,14 @@ function youtubePlayer(musicPlayer,ytQuality) {
 		loggerYoutube.debug('Interval : '+self.interval+' created');
 	};
 	
+	this.enableFullscreen = function(){
+		 var youtubePlayer = document.getElementById("youtubeplayer");
+		 var requestFullScreen = youtubePlayer.requestFullScreen || youtubePlayer.mozRequestFullScreen || youtubePlayer.webkitRequestFullScreen;
+		  if (requestFullScreen) {
+		    requestFullScreen.bind(youtubePlayer)();
+		  }
+	}
+	
 }
 iconMap['yt'] = '/bundles/cogimixyoutube/images/yt-icon.png';
 $("body").on('musicplayerReady',function(event){
@@ -242,10 +250,11 @@ function onYoutubePlayerStateChange(newState) {
 }
 
 function onYouTubeIframeAPIReady(){
+
 	musicPlayer.plugin['yt'].onYouTubeIframeAPIReady();
 }
 
 function onPlayerReady(){
-	console.log('YOUTUBE PLAYER READY');
+	logger.debug('YOUTUBE PLAYER READY');
 }
 	

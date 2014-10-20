@@ -1,8 +1,8 @@
 {% spaceless %}
-<li id="youtube-menu">
+<li id="youtube-menu" class="dropdown-submenu">
     <a href="#">{{ 'youtube.quality'|trans }}</a>
-    {% set ytquality = app.request.cookies.get('ytquality') %}
-    <ul id="youtube-quality">
+    {% set ytquality = app.request.cookies.get('ytquality')|default('large') %}
+    <ul id="youtube-quality" class="dropdown-menu">
      <li {% if ytquality =='small' %}class="active"{% endif %}><a href="#" data-quality="small">{{ 'youtube.quality.small'|trans }}</a></li>
      <li {% if ytquality =='medium' %}class="active"{% endif %}><a href="#" data-quality="medium">{{ 'youtube.quality.medium'|trans }}</a></li>
      <li {% if ytquality =='large' %}class="active"{% endif %}><a href="#" data-quality="large">{{ 'youtube.quality.large'|trans }}</a></li>
