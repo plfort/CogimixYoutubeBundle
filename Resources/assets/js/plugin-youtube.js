@@ -20,19 +20,6 @@ function youtubePlayer(musicPlayer,ytQuality) {
 	}
 	this.quality = ytQuality;
 	this.widgetElement = $("#youtubeplayerContainer");
-	var params = {
-		allowScriptAccess : "always",
-	    wmode: "transparent",
-	    controls:0,
-	    allowFullscreen:true,
-	    rel:false,
-	    fs:1
-	};
-	var atts = {
-		id : "youtubeplayer",
-			allowfullscreen:1,
-			
-	};
 	var self = this;
 	/*
 	var tag = document.createElement('script');
