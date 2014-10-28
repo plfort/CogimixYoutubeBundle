@@ -1,6 +1,17 @@
 <script>
 var loggerYoutube= JSLog.Register('CogimixYoutube');
 var ytQuality = {% if  app.request.cookies.has('ytquality')%}'{{ app.request.cookies.get('ytquality')}}'{%else%}'default'{% endif %};
+var youtubeLoadedDeferred= $.Deferred();
+function loadYoutube(){
+   
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+	//$("#youtubeplayer").attr('src','https://www.youtube.com/embed/?enablejsapi=1&controls=0&origin={{ app.request.scheme ~'://' ~ app.request.httpHost}}');
+	return youtubeLoadedDeferred;    
+}
 </script>
 {% javascripts
         '@CogimixYoutubeBundle/Resources/assets/js/plugin-youtube.js' filter="?yui_js"%}
