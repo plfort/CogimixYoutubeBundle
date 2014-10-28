@@ -66,7 +66,8 @@ class YoutubeMusicSearch extends AbstractMusicSearch
     {
         $this->videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
         
-        $this->videoQuery->setCategory('music');
+        //$this->videoQuery->setCategory('music');
+        $this->videoQuery->setOrderBy('relevance');
         $this->videoQuery->setVideoQuery($this->searchQuery->getSongQuery());
     }
 
