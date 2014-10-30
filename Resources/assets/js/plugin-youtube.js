@@ -90,7 +90,7 @@ function youtubePlayer(musicPlayer,ytQuality) {
 	
 	this.playHelper = function() {
 		if(self.ytplayer!=null){
-			self.setVolume(self.musicPlayer.volume);
+			
 			self.ytplayer.playVideo();
 		}
 	};
@@ -176,6 +176,7 @@ function youtubePlayer(musicPlayer,ytQuality) {
 				
 				loggerYoutube.debug('Create interval');
 				self.createCursorInterval(1000);
+				self.setVolume(self.musicPlayer.volume);
 			}else{
 				self.cancelRequested=false;
 				self.stop();
