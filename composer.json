@@ -8,7 +8,7 @@
 	],
 	"require" : {
 		"php" : ">=5.3.3",
-		"madcoda/php-youtube-api" : "dev-master"
+		"madcoda/php-youtube-api" : "1.0"
 	},
 	"autoload" : {
 		"psr-0" : {
