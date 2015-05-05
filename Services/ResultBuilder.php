@@ -9,30 +9,32 @@ class ResultBuilder{
     public function createFromVideoEntry($videoEntry){
 
         $item = null;
-        if($videoEntry !== null ){
-     
+        if($videoEntry !== null && is_object($videoEntry) ){
             $item = new TrackResult();
-            $item->setEntryId($videoEntry->getVideoId());
-            if(strstr($videoEntry->getVideoTitle(),'-' )!==false){
-                $artistTitle = explode('-', $videoEntry->getVideoTitle());
+            if(is_object($videoEntry->id)){
+                $item->setEntryId($videoEntry->id->videoId);
+            }elseif(isset($videoEntry->id)){
+                $item->setEntryId($videoEntry->id);
+            }
+
+            if(strstr($videoEntry->snippet->title,'-' )!==false){
+                $artistTitle = explode('-', $videoEntry->snippet->title);
                 $item->setArtist(trim($artistTitle[0]));
                 $item->setTitle(trim($artistTitle[1]));
             }else{
-                $item->setTitle($videoEntry->getVideoTitle());
-                
+                $item->setTitle($videoEntry->snippet->title);
+
 
             }
-            $videoThumbnails = $videoEntry->getVideoThumbnails();
-            $thumbnails=array();
-            if(!empty($videoThumbnails) && array_key_exists(0, $videoThumbnails)){
-                $thumbnails=$videoThumbnails[0]['url'];
-            }else{
-                $thumbnails=null;
-            }
+            $thumbnails = $videoEntry->snippet->thumbnails->medium->url;
             $item->setThumbnails($thumbnails);
             $item->setTag($this->getResultTag());
             $item->setIcon($this->getDefaultIcon());
-            $item->setDuration($videoEntry->getVideoDuration());
+            if(isset($videoEntry->contentDetails)){
+                if(isset($videoEntry->contentDetails->videoDuration)){
+                    $item->setDuration($videoEntry->contentDetails->videoDuration);
+                }
+            }
         }
 
         return $item;

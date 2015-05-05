@@ -1,19 +1,19 @@
 {
-    "name": "cogipix/cogimixyoutube",
-    "type": "symfony-bundle",
-    "authors": [
-        {
-            "name": "Pierre-Louis FORT",
-            "email": "plfort@cogipix.com"
-        }
-    ],
-    "require": {
-       "php": ">=5.3.3",
-       "zend/gdata":"1.12.1"
-    },
-    "autoload": {
-        "psr-0": {"Cogipix\\CogimixYoutubeBundle": ""}
-    },
-    "target-dir": "Cogipix/CogimixYoutubeBundle",
-    "include-path": ["../../../vendor/zend/gdata/library"]
+	"name" : "cogipix/cogimixyoutube",
+	"type" : "symfony-bundle",
+	"authors" : [{
+			"name" : "Pierre-Louis FORT",
+			"email" : "plfort@cogipix.com"
+		}
+	],
+	"require" : {
+		"php" : ">=5.3.3",
+		"madcoda/php-youtube-api" : "dev-master"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"Cogipix\\CogimixYoutubeBundle" : ""
+		}
+	},
+	"target-dir" : "Cogipix/CogimixYoutubeBundle"
 }

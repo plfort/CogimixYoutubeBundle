@@ -18,8 +18,20 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('youtube_music');
-
+        $rootNode = $treeBuilder->root('cogimix_youtube');
+        $rootNode
+        ->children()
+            ->arrayNode('api')
+                ->isRequired()
+                    ->cannotBeEmpty()
+                    ->children()
+                    ->scalarNode('key')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                    ->end()
+                 ->end()
+            ->end()
+        ->end();
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.

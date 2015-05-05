@@ -3,6 +3,7 @@ namespace Cogipix\CogimixYoutubeBundle\Services;
 
 use Cogipix\CogimixCommonBundle\Entity\TrackResult;
 use Cogipix\CogimixCommonBundle\MusicSearch\AbstractMusicSearch;
+use Madcoda\Youtube;
 
 class YoutubeMusicSearch extends AbstractMusicSearch
 {
@@ -13,11 +14,10 @@ class YoutubeMusicSearch extends AbstractMusicSearch
 
     private $resultBuilder;
 
-    public function __construct(ResultBuilder $resultBuilder)
+    public function __construct(ResultBuilder $resultBuilder,$youtubeApiKey)
     {
         $this->resultBuilder = $resultBuilder;
-        $this->youtubeService = new \Zend_Gdata_YouTube();
-        $this->youtubeService->getHttpClient()->setAdapter('Zend_Http_Client_Adapter_Curl');
+        $this->youtubeService = new Youtube(array('key'=>$youtubeApiKey));
     }
 
     protected function parseResponse($feeds)
@@ -34,44 +34,55 @@ class YoutubeMusicSearch extends AbstractMusicSearch
     protected function executeQuery()
     {
         $this->logger->info('Youtube executeQuery');
-        $feeds = array();
+        $videos = array();
         try {
-            $feeds = $this->youtubeService->getVideoFeed($this->videoQuery);
+            $params = array(
+                'q' => $this->searchQuery->getSongQuery(),
+                'type' => 'video',
+                'part' => 'id, snippet',
+                'maxResults' => 30,
+            );
+
+            $params['order'] = 'relevance';
+
+
+            $videos = $this->youtubeService->searchAdvanced($params);
+
         } catch (\Exception $ex) {
             $this->logger->err($ex);
             return array();
         }
 
-        return $this->parseResponse($feeds);
+        return $this->parseResponse($videos);
     }
 
     protected function executePopularQuery()
     {
+        $feeds = array();
+//         $videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
 
-        $videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
+//         $videoQuery->setCategory('Music');
+//         $videoQuery->setFeedType('most viewed');
+//         $videoQuery->setMaxResults(50);
 
-        $videoQuery->setCategory('Music');
-        $videoQuery->setFeedType('most viewed');
-        $videoQuery->setMaxResults(50);
-
-        $this->logger->info('Youtube executePopularQuery');
-        try {
-            $feeds = $this->youtubeService->getMostViewedVideoFeed($videoQuery);
-        } catch (\Exception $ex) {
-            $this->logger->err($ex);
-            return array();
-        }
+//         $this->logger->info('Youtube executePopularQuery');
+//         try {
+//             $feeds = $this->youtubeService->getMostViewedVideoFeed($videoQuery);
+//         } catch (\Exception $ex) {
+//             $this->logger->err($ex);
+//             return array();
+//         }
 
         return $this->parseResponse($feeds);
     }
 
     protected function buildQuery()
     {
-        $this->videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
+       // $this->videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
 
         //$this->videoQuery->setCategory('music');
-        $this->videoQuery->setOrderBy('relevance');
-        $this->videoQuery->setVideoQuery($this->searchQuery->getSongQuery());
+      //  $this->videoQuery->setOrderBy('relevance');
+       // $this->videoQuery->setVideoQuery();
     }
 
     public function getName()

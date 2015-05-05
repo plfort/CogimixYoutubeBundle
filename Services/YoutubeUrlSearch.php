@@ -6,14 +6,17 @@ use Cogipix\CogimixCommonBundle\Model\ParsedUrl;
 
 use Cogipix\CogimixYoutubeBundle\Services\ResultBuilder;
 use Cogipix\CogimixCommonBundle\MusicSearch\UrlSearcherInterface;
+use Madcoda\Youtube;
 
 class YoutubeUrlSearch implements UrlSearcherInterface
 {
     private $regexHost = '#^(?:www\.)?(?:youtu\.be|youtube\.com)#';
     private $resultBuilder;
+    private $youtubeService;
 
-    public function __construct(ResultBuilder $resultBuilder){
+    public function __construct(ResultBuilder $resultBuilder,$youtubeApiKey){
         $this->resultBuilder = $resultBuilder;
+        $this->youtubeService = new Youtube(array('key'=>$youtubeApiKey));
     }
 
 
@@ -32,19 +35,17 @@ class YoutubeUrlSearch implements UrlSearcherInterface
 
         if( ($match = $this->canParse($url)) !== false){
 
-            $youtubeService = new \Zend_Gdata_YouTube();
-            $youtubeService->getHttpClient()->setAdapter('Zend_Http_Client_Adapter_Curl');
             $videoEntry = null;
             if($match == 'youtu.be' && isset($url->path[0])){
 
-                $videoEntry = $youtubeService->getVideoEntry($url->path[0]);
+                $videoEntry = $this->youtubeService->getVideoInfo($url->path[0]);
             }else{
                 if($url->path[0] == 'embed'){
 
-                    $videoEntry=$youtubeService->getVideoEntry(end($url->path));
+                    $videoEntry=$this->youtubeService->getVideoInfo(end($url->path));
                 }else{
                     if(isset($url->query['v'])){
-                        $videoEntry = $youtubeService->getVideoEntry($url->query['v']);
+                        $videoEntry = $this->youtubeService->getVideoInfo($url->query['v']);
                     }
                 }
 
