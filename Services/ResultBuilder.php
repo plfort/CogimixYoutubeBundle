@@ -1,7 +1,7 @@
 <?php
 namespace Cogipix\CogimixYoutubeBundle\Services;
 
-use Cogipix\CogimixCommonBundle\Entity\TrackResult;
+use Cogipix\CogimixCommonBundle\Entity\Song;
 
 class ResultBuilder{
 
@@ -10,7 +10,7 @@ class ResultBuilder{
 
         $item = null;
         if($videoEntry !== null && is_object($videoEntry) ){
-            $item = new TrackResult();
+            $item = new Song();
             if(is_object($videoEntry->id)){
                 $item->setEntryId($videoEntry->id->videoId);
             }elseif(isset($videoEntry->id)){

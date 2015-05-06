@@ -1,7 +1,6 @@
 <?php
 namespace Cogipix\CogimixYoutubeBundle\Services;
 
-use Cogipix\CogimixCommonBundle\Entity\TrackResult;
 use Cogipix\CogimixCommonBundle\MusicSearch\AbstractMusicSearch;
 use Madcoda\Youtube;
 
