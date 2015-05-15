@@ -22,10 +22,14 @@ class YoutubeMusicSearch extends AbstractMusicSearch
     protected function parseResponse($feeds)
     {
         $result = array();
-        foreach ($feeds as $feed) {
-            $item = $this->resultBuilder->createFromVideoEntry($feed);
-            $result[] = $item;
+        if($feeds){
+            foreach ($feeds as $feed) {
+                $item = $this->resultBuilder->createFromVideoEntry($feed);
+                $result[] = $item;
+            }
         }
+
+
         $this->logger->info('Youtube return ' . count($result) . ' results');
         return $result;
     }
@@ -34,6 +38,7 @@ class YoutubeMusicSearch extends AbstractMusicSearch
     {
         $this->logger->info('Youtube executeQuery');
         $videos = array();
+
         try {
             $params = array(
                 'q' => $this->searchQuery->getSongQuery(),
@@ -48,8 +53,8 @@ class YoutubeMusicSearch extends AbstractMusicSearch
             $videos = $this->youtubeService->searchAdvanced($params);
 
         } catch (\Exception $ex) {
-            $this->logger->err($ex);
-            return array();
+            $this->logger->error($ex);
+
         }
 
         return $this->parseResponse($videos);
@@ -77,11 +82,7 @@ class YoutubeMusicSearch extends AbstractMusicSearch
 
     protected function buildQuery()
     {
-       // $this->videoQuery = new \Zend_Gdata_YouTube_VideoQuery();
 
-        //$this->videoQuery->setCategory('music');
-      //  $this->videoQuery->setOrderBy('relevance');
-       // $this->videoQuery->setVideoQuery();
     }
 
     public function getName()
